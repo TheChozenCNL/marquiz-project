@@ -1,9 +1,11 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Flex, Statistic, Input, Typography, Button } from 'antd'
 import type { CountdownProps } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
 import s from './style.module.scss'
+import { answerQuestion } from '@/modules/store/reducers/gameReducer'
 
 const { Countdown } = Statistic
 const { Title } = Typography
@@ -35,4 +37,3 @@ const GameField: React.FC<Prop> = ({ question }) => {
   )
 }
 export default GameField
-

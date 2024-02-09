@@ -1,3 +1,5 @@
+'use client'
+
 import { setRoundCount } from '@/modules/store/reducers/roundSlice'
 import { Select } from 'antd'
 import { useDispatch } from 'react-redux'

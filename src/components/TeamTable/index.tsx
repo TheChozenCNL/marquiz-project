@@ -1,14 +1,13 @@
+'use client'
+
 import React from 'react'
 import { Button, Table } from 'antd'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/modules/store/store'
 import { ITeam } from '@/models/Team'
 
-interface Prop {
-  teams: ITeam[]
-}
-
-const TeamsTable: React.FC<Prop> = ({ teams }) => {
+const TeamsTable: React.FC = () => {
+  const teams = useSelector((state: RootState) => state.teams.teams)
   const roundNumber = useSelector((state: RootState) => state.round.roundNumber)
 
   const roundColumns = new Array(roundNumber).fill(null).map((_, index) => ({

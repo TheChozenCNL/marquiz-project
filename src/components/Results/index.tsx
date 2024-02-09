@@ -4,17 +4,18 @@ import { Typography, Button } from 'antd'
 import TeamsTable from '../TeamTable'
 import { IRound } from '@/models/Round'
 import { ITeam } from '@/models/Team'
-import ResultTable from '../ResultTable'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/modules/store/store'
 import { useRouter } from 'next/navigation'
 import { updateTeam } from '@/modules/store/reducers/teamSlice'
+import s from './style.module.scss'
 
 const { Title } = Typography
 
 function Results() {
   const router = useRouter()
   const gameData = useSelector((state: RootState) => state.game)
+  const dispatch = useDispatch()
 
   if (gameData.gameIsStarted) {
     //change route to game route
@@ -46,15 +47,17 @@ function Results() {
 
   const handleAddtoTeam = () => {
     if (gameData.team) {
-      const team : ITeam = gameData.team
-      useDispatch(updateTeam(team))
+      const team: ITeam = gameData.team
+      dispatch(updateTeam(team))
     }
   }
 
   return (
-    <div>
-      <Title level={2}>Результати гри</Title>
-      <Button>Додати результат</Button>
+    <div className={s.container}>
+      <div className={s.result}>
+        <Title level={2}>Результати гри</Title>
+        <Button onClick={() => handleAddtoTeam()}>Додати результат</Button>
+      </div>
       <TeamsTable teamData={team} />
       <Title level={2}>Результати інших команд</Title>
       <TeamsTable setPagination={true} />

@@ -1,4 +1,5 @@
 import { IRound } from '@/models/Round'
+import { IStartGame } from '@/models/StartGame'
 import { ITeam } from '@/models/Team'
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
@@ -24,12 +25,10 @@ export const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    startGame: (state: GameState, action: PayloadAction<GameState>) => {
+    startGame: (state: GameState, action: PayloadAction<IStartGame>) => {
       state.gameIsStarted = action.payload.gameIsStarted
       state.countOfRounds = action.payload.countOfRounds
-      state.team = action.payload.team
       state.questions = action.payload.questions
-      state.countOfCorrectAnswer = 0
     },
     answerQuestion: (state: GameState, action: PayloadAction<string>) => {
       const currentQuestion = state.questions[state.currentRound - 1]
@@ -61,6 +60,9 @@ export const gameSlice = createSlice({
       state.team = undefined
       state.questions = []
       state.countOfCorrectAnswer = 0
+    },
+    setTeam: (state: GameState, action: PayloadAction<ITeam>) => {
+      state.team = action.payload
     },
   },
 })

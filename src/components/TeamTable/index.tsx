@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Button, Table } from 'antd'
+import { Table } from 'antd'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/modules/store/store'
 import { ITeam } from '@/models/Team'
@@ -38,6 +38,7 @@ const TeamsTable: React.FC<Prop> = ({ setPagination = false, teamData }) => {
       title: '№',
       dataIndex: 'id',
       key: 'id',
+      render: (text: string, record: ITeam, index: number) => <span>{index + 1}</span>,
     },
     {
       title: 'Команда',

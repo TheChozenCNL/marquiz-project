@@ -20,7 +20,7 @@ const CooldownTimer: React.FC<Props> = ({ minutes }) => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      if (remainingTime > 0) {
+      if (remainingTime > 0 && !isFinished) {
         dispatch(decrementRemainingTime())
       }
     }, 1000)

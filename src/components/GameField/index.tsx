@@ -11,7 +11,7 @@ const { Countdown } = Statistic
 const { Title } = Typography
 
 interface Prop {
-  question: string
+  question?: string
 }
 
 const GameField: React.FC<Prop> = ({ question }) => {

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/modules/store/store'
 
 interface Prop {
-  questions: IQuestion[]
+  questions?: IQuestion[]
 }
 
 const QuestionTable: React.FC<Prop> = ({ questions }) => {

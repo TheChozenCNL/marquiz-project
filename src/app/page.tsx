@@ -14,7 +14,7 @@ export default function Home() {
       />
       <div className={styles.content}>
         <div className={styles.center}>
-          <Button type="primary" size="large">Start</Button>
+          <Button type="primary" size="large">Старт</Button>
         </div>
       </div>
     </div>

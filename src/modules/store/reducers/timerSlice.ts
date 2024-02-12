@@ -7,7 +7,7 @@ interface TimerState {
 
 const initialState: TimerState = {
   remainingTime: 0,
-  isFinished: true,
+  isFinished: false,
 }
 
 const timerSlice = createSlice({
@@ -22,13 +22,17 @@ const timerSlice = createSlice({
       if (state.remainingTime > 0) {
         state.remainingTime -= 1
       }
-      if (state.remainingTime === 0 ) {
+      if (state.remainingTime === 0) {
         state.isFinished = true
       }
+    },
+    resetTimer(state: TimerState) {
+      state.isFinished = false
+      state.remainingTime = 0
     },
   },
 })
 
-export const { setRemainingTime, decrementRemainingTime } =
+export const { setRemainingTime, decrementRemainingTime, resetTimer } =
   timerSlice.actions
 export default timerSlice.reducer

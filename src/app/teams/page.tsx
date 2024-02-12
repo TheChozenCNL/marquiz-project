@@ -1,13 +1,5 @@
-import TeamsTable from '@/components/TeamTable'
-import TableCard from '@/components/TableCard'
-import TeamTableHeader from '@/components/TeamTableHeader'
+import TeamBlock from '@/components/TeamBlock'
 
 export default function Teams() {
-  return (
-    <>
-      <TableCard title={<TeamTableHeader />}>
-        <TeamsTable />
-      </TableCard>
-    </>
-  )
+  return <TeamBlock />
 }

@@ -1,0 +1,10 @@
+.startButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+
+  .startButton {
+    width: 200px;
+    margin-top: 20px;
+  }
+}

@@ -1,35 +1,40 @@
-import React, { useState } from 'react';
-import { Button, Input, Modal } from 'antd';
-import s from './style.module.scss';
-import { addQuestion } from '@/modules/store/reducers/questionSlice';
-import { RootState } from '@/modules/store/store';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react'
+import { Button, Input, Modal, Select } from 'antd'
+import s from './style.module.scss'
+import { addQuestion } from '@/modules/store/reducers/questionSlice'
+import { RootState } from '@/modules/store/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { ICategory } from '@/models/Category'
 
 const AddQuestionSection = () => {
-  const [question, setQuestion] = useState<string>('');
-  const [answer, setAnswer] = useState<string>('');
-  const [modalVisible, setModalVisible] = useState<boolean>(false); // Стан для керування видимістю модального вікна
-  const dispatch = useDispatch();
-  const questionsLength = useSelector((state: RootState) => state.questions.questions).length;
+  const [question, setQuestion] = useState<string>('')
+  const [answer, setAnswer] = useState<string>('')
+  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(null)
+  const [modalVisible, setModalVisible] = useState<boolean>(false)
+  const dispatch = useDispatch()
+  const questionsLength = useSelector((state: RootState) => state.questions.questions).length
+  const categories = useSelector((state: RootState) => state.categories.categories)
 
   const handleAddQuestion = () => {
     const newQuestion = {
       id: questionsLength + 1,
       question: question,
       answer: answer,
-    };
-    dispatch(addQuestion(newQuestion));
-    setQuestion('');
-    setAnswer('');
-    setModalVisible(false);
+      category: selectedCategory,
+    }
+    dispatch(addQuestion(newQuestion))
+    setQuestion('')
+    setAnswer('')
+    setSelectedCategory(null)
+    setModalVisible(false)
   };
 
   return (
     <>
-      <Button  onClick={() => setModalVisible(true)}>Додати питання</Button>
+      <Button onClick={() => setModalVisible(true)}>Додати питання</Button>
       <Modal
         title="Додати питання"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={[
           <Button key="cancel" onClick={() => setModalVisible(false)}>Відміна</Button>,
@@ -47,10 +52,22 @@ const AddQuestionSection = () => {
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
           />
+          <Select
+            placeholder="Категорія"
+            value={selectedCategory?.name} // Update value to selectedCategory?.name
+            onChange={(value) => {
+              const category = categories?.find(cat => cat.name === value);
+              setSelectedCategory(category || null);
+            }}
+          >
+            {categories?.map((category) => (
+              <Select.Option key={category.id} value={category.name}>{category.name}</Select.Option>
+            ))}
+          </Select>
         </div>
       </Modal>
     </>
   );
 };
 
-export default AddQuestionSection;
+export default AddQuestionSection

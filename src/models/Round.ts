@@ -1,4 +1,4 @@
 export interface IRound {
-    roundNumber: number
-    roundPoints: number
+  roundNumber: number
+  roundPoints: number
 }

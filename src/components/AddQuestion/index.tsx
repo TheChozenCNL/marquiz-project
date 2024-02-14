@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { Button, Input, Modal, Select, Typography } from 'antd'
-import s from './style.module.scss';
-import { addQuestion } from '@/modules/store/reducers/questionSlice';
-import { RootState } from '@/modules/store/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { ICategory } from '@/models/Category';
+import s from './style.module.scss'
+import { addQuestion } from '@/modules/store/reducers/questionSlice'
+import { RootState } from '@/modules/store/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { ICategory } from '@/models/Category'
 
 const { Text,  } = Typography
 
 const AddQuestionSection = () => {
-  const [question, setQuestion] = useState<string>('');
-  const [answer, setAnswer] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(null);
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const questions = useSelector((state: RootState) => state.questions.questions);
-  const categories = useSelector((state: RootState) => state.categories.categories);
+  const [question, setQuestion] = useState<string>('')
+  const [answer, setAnswer] = useState<string>('')
+  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(null)
+  const [modalVisible, setModalVisible] = useState<boolean>(false)
+  const dispatch = useDispatch()
+  const questions = useSelector((state: RootState) => state.questions.questions)
+  const categories = useSelector((state: RootState) => state.categories.categories)
 
-  const questionsByCategory = questions.filter((question) => question.category?.id === selectedCategory?.id);
+  const questionsByCategory = questions.filter((question) => question.category?.id === selectedCategory?.id)
 
   const handleAddQuestion = () => {
     const newQuestion = {
@@ -31,7 +31,7 @@ const AddQuestionSection = () => {
     setAnswer('')
     setSelectedCategory(null)
     setModalVisible(false)
-  };
+  }
 
   return (
     <>
@@ -60,8 +60,8 @@ const AddQuestionSection = () => {
             placeholder="Категорія"
             value={selectedCategory?.name}
             onChange={(value) => {
-              const category = categories?.find(cat => cat.name === value);
-              setSelectedCategory(category || null);
+              const category = categories?.find(cat => cat.name === value)
+              setSelectedCategory(category || null)
             }}
           >
             {categories?.map((category) => (
@@ -74,7 +74,7 @@ const AddQuestionSection = () => {
         </div>
       </Modal>
     </>
-  );
-};
+  )
+}
 
 export default AddQuestionSection

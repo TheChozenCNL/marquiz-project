@@ -1,12 +1,11 @@
 'use client'
 
-import React from 'react'
-import { Flex, Typography, Button } from 'antd'
+import React, { useState } from 'react'
+import { Flex, Typography, Button, message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import s from './style.module.scss'
 import Timer from '../Timer'
 import { RootState } from '@/modules/store/store'
-import { IQuestion } from '@/models/Question'
 import {
   startGame,
   showAnswer,
@@ -16,6 +15,8 @@ import {
 import { resetTimer } from '@/modules/store/reducers/timerSlice'
 import { IStartGame } from '@/models/StartGame'
 import { useRouter } from 'next/navigation'
+import CategorySelect from '@/components/CategoryModal'
+import CategoryModal from '@/components/CategoryModal'
 
 const { Title } = Typography
 
@@ -24,30 +25,22 @@ const GameField: React.FC = () => {
   const router = useRouter()
   const { isFinished } = useSelector((state: RootState) => state.timer)
   const { isShowAnswer, gameIsStarted, isStopGame, currentRound } = useSelector(
-    (state: RootState) => state.game
+    (state: RootState) => state.game,
   )
 
-  // change to real game questions when we they setup
-  const testData: IQuestion[] = [
-    {
-      id: 1,
-      category: { id: 1, name: 'Category A' },
-      question: 'What is the capital of France?',
-      answer: 'Paris',
-    },
-    {
-      id: 2,
-      category: { id: 2, name: 'Category B' },
-      question: 'Who wrote "Romeo and Juliet"?',
-      answer: 'William Shakespeare',
-    },
-    {
-      id: 3,
-      category: null,
-      question: 'What is the chemical symbol for water?',
-      answer: 'H2O',
-    },
-  ]
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
+  const [modalVisible, setModalVisible] = useState(false)
+
+  const categories = useSelector((state: RootState) => state.categories.categories)
+  const questions = useSelector((state: RootState) => state.questions.questions)
+
+  const questionsByCategory = questions.filter((question) => question.category?.id === selectedCategory)
+
+  const handleSelectCategory = (categoryId: number | null) => {
+    setSelectedCategory(categoryId)
+    setModalVisible(false)
+  }
+
   const handeleShowAnswer = () => {
     dispatch(showAnswer())
   }
@@ -57,6 +50,11 @@ const GameField: React.FC = () => {
   }
 
   const handleStart = () => {
+    if (selectedCategory === null) {
+      message.error('Будь ласка, оберіть категорію')
+      return
+    }
+
     const startGameData: IStartGame = {
       gameIsStarted: true,
       countOfRounds: 3,
@@ -69,6 +67,15 @@ const GameField: React.FC = () => {
     dispatch(endGame())
     router.push('/results')
   }
+
+  const handleOpenModal = () => {
+    setModalVisible(true)
+  }
+
+  const handleCloseModal = () => {
+    setModalVisible(false)
+  }
+
   return (
     <div>
       {gameIsStarted && !isStopGame && (
@@ -80,8 +87,8 @@ const GameField: React.FC = () => {
         <div className={s.gameSection}>
           <Title level={1}>
             {isShowAnswer
-              ? testData[currentRound - 1].answer
-              : testData[currentRound - 1].question}
+              ? questionsByCategory[currentRound - 1]?.answer
+              : questionsByCategory[currentRound - 1]?.question}
           </Title>
           {isFinished && !isStopGame ? (
             <Button onClick={handeleShowAnswer} className={s.btn}>
@@ -89,13 +96,19 @@ const GameField: React.FC = () => {
             </Button>
           ) : null}
           {!gameIsStarted && (
-            <Button onClick={handleStart} className={s.btn}>
-              Поїхали
-            </Button>
+            <>
+              <Button onClick={handleStart} className={s.btn}>
+                Поїхали
+              </Button>
+              <Button onClick={handleOpenModal} className={s.btn}>
+                Обрати категорію
+              </Button>
+              <CategorySelect categories={categories} onSelectCategory={handleSelectCategory} />
+            </>
           )}
           {isStopGame && (
             <>
-              {currentRound < testData.length && (
+              {currentRound < questionsByCategory.length && (
                 <Button onClick={handleNextRound} className={s.btn}>
                   Наступний раунд
                 </Button>
@@ -105,9 +118,16 @@ const GameField: React.FC = () => {
               </Button>
             </>
           )}
+          <CategoryModal
+            categories={categories}
+            onSelectCategory={handleSelectCategory}
+            visible={modalVisible}
+            onClose={handleCloseModal}
+          />
         </div>
       </div>
     </div>
   )
 }
+
 export default GameField

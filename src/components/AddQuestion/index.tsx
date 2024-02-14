@@ -1,4 +1,3 @@
-// AddQuestionSection.jsx
 import React, { useState } from 'react';
 import { Button, Input, Modal, Select, Typography } from 'antd'
 import s from './style.module.scss';

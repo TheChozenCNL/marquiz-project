@@ -69,10 +69,6 @@ const TeamsTable: React.FC<Prop> = ({
     },
   ]
 
-  const pagination = setPagination
-    ? { position: ['bottomCenter', 'bottomCenter'] }
-    : false
-
   const sortedTeams = isResult
     ? teamData
       ? [teamData]
@@ -83,7 +79,9 @@ const TeamsTable: React.FC<Prop> = ({
       <Table
         dataSource={sortedTeams}
         columns={columns}
-        pagination={pagination}
+        pagination={
+          setPagination ? { position: ['bottomCenter', 'bottomCenter'] } : false
+        }
       />
     </>
   )

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Flex, Typography, Button, message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import s from './style.module.scss'
@@ -17,6 +17,7 @@ import { IStartGame } from '@/models/StartGame'
 import { useRouter } from 'next/navigation'
 import CategorySelect from '@/components/CategoryModal'
 import CategoryModal from '@/components/CategoryModal'
+import { IQuestion } from '@/models/Question'
 
 const { Title } = Typography
 
@@ -28,20 +29,32 @@ const GameField: React.FC = () => {
     (state: RootState) => state.game,
   )
 
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
   const [modalVisible, setModalVisible] = useState(false)
+
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
+  const [mixedQuestions, setMixedQuestions] = useState<IQuestion[]>([])
 
   const categories = useSelector((state: RootState) => state.categories.categories)
   const questions = useSelector((state: RootState) => state.questions.questions)
 
-  const questionsByCategory = questions.filter((question) => question.category?.id === selectedCategory)
+  const questionsByCategory = mixedQuestions.filter((question) => question.category?.id === selectedCategory)
+
+
+  useEffect(() => {
+    mixQuestions()
+  }, [questions])
+
+  const mixQuestions = () => {
+    const shuffled = [...questions].sort(() => Math.random() - 0.5)
+    setMixedQuestions(shuffled)
+  }
 
   const handleSelectCategory = (categoryId: number | null) => {
     setSelectedCategory(categoryId)
     setModalVisible(false)
   }
 
-  const handeleShowAnswer = () => {
+  const handleShowAnswer = () => {
     dispatch(showAnswer())
   }
 
@@ -91,7 +104,7 @@ const GameField: React.FC = () => {
               : questionsByCategory[currentRound - 1]?.question}
           </Title>
           {isFinished && !isStopGame ? (
-            <Button onClick={handeleShowAnswer} className={s.btn}>
+            <Button onClick={handleShowAnswer} className={s.btn}>
               Показати відповідь
             </Button>
           ) : null}

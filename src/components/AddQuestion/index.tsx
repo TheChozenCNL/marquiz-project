@@ -1,23 +1,28 @@
-import React, { useState } from 'react'
-import { Button, Input, Modal, Select } from 'antd'
-import s from './style.module.scss'
-import { addQuestion } from '@/modules/store/reducers/questionSlice'
-import { RootState } from '@/modules/store/store'
-import { useDispatch, useSelector } from 'react-redux'
-import { ICategory } from '@/models/Category'
+// AddQuestionSection.jsx
+import React, { useState } from 'react';
+import { Button, Input, Modal, Select, Typography } from 'antd'
+import s from './style.module.scss';
+import { addQuestion } from '@/modules/store/reducers/questionSlice';
+import { RootState } from '@/modules/store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { ICategory } from '@/models/Category';
+
+const { Text,  } = Typography
 
 const AddQuestionSection = () => {
-  const [question, setQuestion] = useState<string>('')
-  const [answer, setAnswer] = useState<string>('')
-  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(null)
-  const [modalVisible, setModalVisible] = useState<boolean>(false)
-  const dispatch = useDispatch()
-  const questionsLength = useSelector((state: RootState) => state.questions.questions).length
-  const categories = useSelector((state: RootState) => state.categories.categories)
+  const [question, setQuestion] = useState<string>('');
+  const [answer, setAnswer] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(null);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const questions = useSelector((state: RootState) => state.questions.questions);
+  const categories = useSelector((state: RootState) => state.categories.categories);
+
+  const questionsByCategory = questions.filter((question) => question.category?.id === selectedCategory?.id);
 
   const handleAddQuestion = () => {
     const newQuestion = {
-      id: questionsLength + 1,
+      id: questions.length + 1,
       question: question,
       answer: answer,
       category: selectedCategory,
@@ -54,7 +59,7 @@ const AddQuestionSection = () => {
           />
           <Select
             placeholder="Категорія"
-            value={selectedCategory?.name} // Update value to selectedCategory?.name
+            value={selectedCategory?.name}
             onChange={(value) => {
               const category = categories?.find(cat => cat.name === value);
               setSelectedCategory(category || null);
@@ -64,6 +69,9 @@ const AddQuestionSection = () => {
               <Select.Option key={category.id} value={category.name}>{category.name}</Select.Option>
             ))}
           </Select>
+          {selectedCategory && questionsByCategory.length < 3 && (
+            <Text type="danger">Потрібно ще додати хоча б {3 - questionsByCategory.length} питання</Text>
+          )}
         </div>
       </Modal>
     </>

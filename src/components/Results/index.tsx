@@ -47,7 +47,11 @@ function Results() {
         <Title level={2}>Результати гри</Title>
         <Button onClick={showModal}>Додати результат</Button>
       </div>
-      <TeamsTable teamData={gameResult} isResult />
+      <TeamsTable
+        teamData={gameResult}
+        isResult
+        setGameResult={setGameResult}
+      />
       <Title level={2}>Результати інших команд</Title>
       <TeamsTable setPagination={true} />
       <TeamFormModal

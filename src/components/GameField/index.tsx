@@ -98,7 +98,7 @@ const GameField: React.FC = () => {
       )}
       <div className={s.container}>
         <div className={s.gameSection}>
-          <Title level={1}>
+          <Title level={1} className={s.text}>
             {isShowAnswer
               ? questionsByCategory[currentRound - 1]?.answer
               : questionsByCategory[currentRound - 1]?.question}

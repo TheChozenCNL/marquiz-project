@@ -37,7 +37,7 @@ function Results() {
   }
 
   const handleCreate = (values: ITeam) => {
-    if (teams.includes(values)) {
+    if (teams.find((team) => team.name === values.name)) {
       dispatch(updateTeam(values))
       setGameResult(values)
       setIsModalVisible(false)

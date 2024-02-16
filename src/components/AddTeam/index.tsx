@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, Input } from 'antd'
+import { Button, Input, message } from 'antd'
 import s from './style.module.scss'
 import { addTeam } from '@/modules/store/reducers/teamSlice'
 import { RootState } from '@/modules/store/store'
@@ -13,6 +13,11 @@ function AddTeamSection() {
   const teamsLenth = useSelector((state: RootState) => state.teams.teams).length
 
   const handleAddTeam = () => {
+    if (teamName === '' || teamName === undefined) {
+      message.error('Будь ласка, введіть назву команди')
+      return
+    }
+
     const newTeam = {
       id: teamsLenth + 1,
       name: teamName,

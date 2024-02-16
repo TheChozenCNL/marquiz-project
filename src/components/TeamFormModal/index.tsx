@@ -25,7 +25,6 @@ const TeamFormModal: React.FC<Props> = ({
   )
   const teams = useSelector((state: RootState) => state.teams.teams)
 
-  console.log(teams)
   const onFinish = (values: any) => {
     const totalPoints = roundPoints.reduce((acc, val) => acc + val, 0)
     form.setFieldsValue({ points: totalPoints })

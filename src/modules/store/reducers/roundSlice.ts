@@ -5,7 +5,7 @@ interface RoundState {
 }
 
 const initialState: RoundState = {
-  roundNumber: 3,
+  roundNumber: 13,
 }
 
 export const roundSlice = createSlice({

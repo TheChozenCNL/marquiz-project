@@ -47,16 +47,7 @@ const AddQuestionSection = () => {
       // implement to add imgQuestions
       question: {
         textQuestion: question,
-        imgQuestion: [
-          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
-          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
-          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
-          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
-          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
-          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
-          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
-          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
-        ],
+        imgQuestion: [],
       },
       answer: {
         textAnswer: answer,

@@ -5,6 +5,7 @@ import { addQuestion } from '@/modules/store/reducers/questionSlice'
 import { RootState } from '@/modules/store/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { ICategory } from '@/models/Category'
+import { IQuestion } from '@/models/Question'
 
 const { Text } = Typography
 
@@ -41,10 +42,25 @@ const AddQuestionSection = () => {
       return
     }
 
-    const newQuestion = {
+    const newQuestion: IQuestion = {
       id: questions.length + 1,
-      question: question,
-      answer: answer,
+      // implement to add imgQuestions
+      question: {
+        textQuestion: question,
+        imgQuestion: [
+          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
+          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
+          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
+          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
+          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
+          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
+          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
+          'https://i.pinimg.com/736x/86/e5/23/86e5231b1c352ca7e9045bef7bcec4af.jpg',
+        ],
+      },
+      answer: {
+        textAnswer: answer,
+      },
       category: selectedCategory,
     }
     dispatch(addQuestion(newQuestion))

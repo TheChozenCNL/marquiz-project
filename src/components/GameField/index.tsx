@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation'
 import CategorySelect from '@/components/CategoryModal'
 import CategoryModal from '@/components/CategoryModal'
 import { IQuestion } from '@/models/Question'
+import ImageWithText from '../ImageWithText'
 
 const { Title } = Typography
 
@@ -26,7 +27,7 @@ const GameField: React.FC = () => {
   const router = useRouter()
   const { isFinished } = useSelector((state: RootState) => state.timer)
   const { isShowAnswer, gameIsStarted, isStopGame, currentRound } = useSelector(
-    (state: RootState) => state.game,
+    (state: RootState) => state.game
   )
 
   const [modalVisible, setModalVisible] = useState(false)
@@ -34,11 +35,14 @@ const GameField: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
   const [mixedQuestions, setMixedQuestions] = useState<IQuestion[]>([])
 
-  const categories = useSelector((state: RootState) => state.categories.categories)
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories
+  )
   const questions = useSelector((state: RootState) => state.questions.questions)
 
-  const questionsByCategory = mixedQuestions.filter((question) => question.category?.id === selectedCategory)
-
+  const questionsByCategory = mixedQuestions.filter(
+    (question) => question.category?.id === selectedCategory
+  )
 
   useEffect(() => {
     mixQuestions()
@@ -98,12 +102,26 @@ const GameField: React.FC = () => {
       )}
       <div className={s.container}>
         <div className={s.gameSection}>
-          <Title level={1}>
+          <Title level={1} className={s.text}>
             {isShowAnswer
-              ? questionsByCategory[currentRound - 1]?.answer
-              : questionsByCategory[currentRound - 1]?.question}
+              ? questionsByCategory[currentRound - 1]?.answer.textAnswer
+              : questionsByCategory[currentRound - 1]?.question.textQuestion}
           </Title>
-          {isFinished && !isStopGame ? (
+          <div className={s.imageContainer}>
+            {!isShowAnswer &&
+              questionsByCategory[currentRound - 1]?.question.imgQuestion?.map(
+                (img, index) => (
+                  <div className={s.image}>
+                    <ImageWithText
+                      src={img}
+                      text={`${index + 1}`}
+                      alt={`фото ${index}`}
+                    />
+                  </div>
+                )
+              )}
+          </div>
+          {gameIsStarted && !isStopGame ? (
             <Button onClick={handleShowAnswer} className={s.btn}>
               Показати відповідь
             </Button>
@@ -116,7 +134,10 @@ const GameField: React.FC = () => {
               <Button onClick={handleOpenModal} className={s.btn}>
                 Обрати категорію
               </Button>
-              <CategorySelect categories={categories} onSelectCategory={handleSelectCategory} />
+              <CategorySelect
+                categories={categories}
+                onSelectCategory={handleSelectCategory}
+              />
             </>
           )}
           {isStopGame && (

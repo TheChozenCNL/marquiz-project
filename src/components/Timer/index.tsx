@@ -41,7 +41,7 @@ const CooldownTimer: React.FC<Props> = ({ minutes }) => {
 
   return (
     <>
-      <Title level={3}>{formatTime(remainingTime)}</Title>
+      <Title level={3} style={{color: 'white'}}>{formatTime(remainingTime)}</Title>
       <audio ref={tickSound} src="sound.mp3" />
     </>
   )

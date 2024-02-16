@@ -1,21 +1,26 @@
 import React, { Key } from 'react'
-import { Table } from 'antd'
-import { useSelector } from 'react-redux'
+import { Button, Table } from 'antd'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/modules/store/store'
 import { ITeam } from '@/models/Team'
 import { getTeamNamesFilter } from '@/lib/uniqueTeamNames'
+import { DeleteOutlined } from '@ant-design/icons'
+import { deleteTeam } from '@/modules/store/reducers/teamSlice'
 
 interface Prop {
   setPagination?: boolean
   teamData?: ITeam
   isResult?: boolean
+  setGameResult?: React.Dispatch<React.SetStateAction<ITeam | undefined>>
 }
 
 const TeamsTable: React.FC<Prop> = ({
   setPagination = false,
   teamData,
   isResult = false,
+  setGameResult,
 }) => {
+  const dispatch = useDispatch()
   const teams = useSelector((state: RootState) => {
     if (teamData) {
       return [teamData]
@@ -43,6 +48,26 @@ const TeamsTable: React.FC<Prop> = ({
     filters = getTeamNamesFilter(teams)
   }
 
+  const toolsColumns = [
+    {
+      dataIndex: 'delete',
+      title: '',
+      width: 50,
+      render: (text: string, team: ITeam) => (
+        <Button
+          onClick={() => {
+            dispatch(deleteTeam(team.id))
+            if (setGameResult) {
+              setGameResult(undefined)
+            }
+          }}
+        >
+          <DeleteOutlined />
+        </Button>
+      ),
+    },
+  ]
+
   const columns = [
     {
       title: '№',
@@ -67,6 +92,7 @@ const TeamsTable: React.FC<Prop> = ({
       key: 'points',
       sorter: (a: ITeam, b: ITeam) => a.points - b.points,
     },
+    ...toolsColumns,
   ]
 
   const sortedTeams = isResult

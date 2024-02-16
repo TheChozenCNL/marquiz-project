@@ -1,31 +1,59 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Input, Modal, Select, Typography } from 'antd'
+import { Button, Input, Modal, Select, Typography, message } from 'antd'
 import s from './style.module.scss'
 import { addQuestion } from '@/modules/store/reducers/questionSlice'
 import { RootState } from '@/modules/store/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { ICategory } from '@/models/Category'
+import { IQuestion } from '@/models/Question'
 
-const { Text,  } = Typography
+const { Text } = Typography
 
 const AddQuestionSection = () => {
   const [question, setQuestion] = useState<string>('')
   const [answer, setAnswer] = useState<string>('')
-  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(
+    null
+  )
   const [modalVisible, setModalVisible] = useState<boolean>(false)
   const dispatch = useDispatch()
   const questions = useSelector((state: RootState) => state.questions.questions)
-  const categories = useSelector((state: RootState) => state.categories.categories)
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories
+  )
 
-  const questionsByCategory = questions.filter((question) => question.category?.id === selectedCategory?.id)
+  const questionsByCategory = questions.filter(
+    (question) => question.category?.id === selectedCategory?.id
+  )
 
   const handleAddQuestion = () => {
-    const newQuestion = {
+    if (question === '' || question === undefined) {
+      message.error('Будь ласка, введіть питання')
+      return
+    }
+
+    if (answer === '' || answer === undefined) {
+      message.error('Будь ласка, введіть відповідь на питання')
+      return
+    }
+
+    if (selectedCategory === null) {
+      message.error('Будь ласка, виберіть категорію')
+      return
+    }
+
+    const newQuestion: IQuestion = {
       id: questions.length + 1,
-      question: question,
-      answer: answer,
+      // implement to add imgQuestions
+      question: {
+        textQuestion: question,
+        imgQuestion: [],
+      },
+      answer: {
+        textAnswer: answer,
+      },
       category: selectedCategory,
     }
     dispatch(addQuestion(newQuestion))
@@ -43,8 +71,12 @@ const AddQuestionSection = () => {
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={[
-          <Button key="cancel" onClick={() => setModalVisible(false)}>Відміна</Button>,
-          <Button key="submit" type="primary" onClick={handleAddQuestion}>Додати</Button>,
+          <Button key="cancel" onClick={() => setModalVisible(false)}>
+            Відміна
+          </Button>,
+          <Button key="submit" type="primary" onClick={handleAddQuestion}>
+            Додати
+          </Button>,
         ]}
       >
         <div className={s.addQuestionSection}>
@@ -62,16 +94,20 @@ const AddQuestionSection = () => {
             placeholder="Категорія"
             value={selectedCategory?.name}
             onChange={(value) => {
-              const category = categories?.find(cat => cat.name === value)
+              const category = categories?.find((cat) => cat.name === value)
               setSelectedCategory(category || null)
             }}
           >
             {categories?.map((category) => (
-              <Select.Option key={category.id} value={category.name}>{category.name}</Select.Option>
+              <Select.Option key={category.id} value={category.name}>
+                {category.name}
+              </Select.Option>
             ))}
           </Select>
           {selectedCategory && questionsByCategory.length < 3 && (
-            <Text type="danger">Потрібно ще додати хоча б {3 - questionsByCategory.length} питання</Text>
+            <Text type="danger">
+              Потрібно ще додати хоча б {3 - questionsByCategory.length} питання
+            </Text>
           )}
         </div>
       </Modal>

@@ -26,7 +26,7 @@ const GameField: React.FC = () => {
   const router = useRouter()
   const { isFinished } = useSelector((state: RootState) => state.timer)
   const { isShowAnswer, gameIsStarted, isStopGame, currentRound } = useSelector(
-    (state: RootState) => state.game,
+    (state: RootState) => state.game
   )
 
   const [modalVisible, setModalVisible] = useState(false)
@@ -34,11 +34,14 @@ const GameField: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
   const [mixedQuestions, setMixedQuestions] = useState<IQuestion[]>([])
 
-  const categories = useSelector((state: RootState) => state.categories.categories)
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories
+  )
   const questions = useSelector((state: RootState) => state.questions.questions)
 
-  const questionsByCategory = mixedQuestions.filter((question) => question.category?.id === selectedCategory)
-
+  const questionsByCategory = mixedQuestions.filter(
+    (question) => question.category?.id === selectedCategory
+  )
 
   useEffect(() => {
     mixQuestions()
@@ -103,7 +106,7 @@ const GameField: React.FC = () => {
               ? questionsByCategory[currentRound - 1]?.answer
               : questionsByCategory[currentRound - 1]?.question}
           </Title>
-          {isFinished && !isStopGame ? (
+          {gameIsStarted && !isStopGame ? (
             <Button onClick={handleShowAnswer} className={s.btn}>
               Показати відповідь
             </Button>
@@ -116,7 +119,10 @@ const GameField: React.FC = () => {
               <Button onClick={handleOpenModal} className={s.btn}>
                 Обрати категорію
               </Button>
-              <CategorySelect categories={categories} onSelectCategory={handleSelectCategory} />
+              <CategorySelect
+                categories={categories}
+                onSelectCategory={handleSelectCategory}
+              />
             </>
           )}
           {isStopGame && (

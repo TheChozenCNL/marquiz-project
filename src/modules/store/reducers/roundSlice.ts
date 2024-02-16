@@ -15,9 +15,10 @@ export const roundSlice = createSlice({
     setRoundCount: (state: RoundState, action: PayloadAction<number>) => {
       state.roundNumber = action.payload
     },
+    resetRoundState: () => initialState,
   },
 })
 
-export const { setRoundCount } = roundSlice.actions
+export const { setRoundCount, resetRoundState } = roundSlice.actions
 
 export default roundSlice.reducer

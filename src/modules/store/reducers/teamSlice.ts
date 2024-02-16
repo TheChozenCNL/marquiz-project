@@ -18,7 +18,7 @@ export const teamSlice = createSlice({
     },
     updateTeam: (state: TeamState, action: PayloadAction<ITeam>) => {
       state.teams = state.teams.map((team) =>
-        team.id === action.payload.id ? action.payload : team
+        team.name === action.payload.name ? action.payload : team
       )
     },
     deleteTeam: (state: TeamState, action: PayloadAction<number>) => {

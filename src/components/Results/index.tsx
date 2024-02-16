@@ -44,11 +44,11 @@ function Results() {
   return (
     <div className={s.container}>
       <div className={s.result}>
-        <Title level={2}>Результати гри</Title>
+        <Title level={2} className={s.text}>Результати гри</Title>
         <Button onClick={showModal}>Додати результат</Button>
       </div>
       <TeamsTable teamData={gameResult} isResult />
-      <Title level={2}>Результати інших команд</Title>
+      <Title level={2} className={s.text}>Результати інших команд</Title>
       <TeamsTable setPagination={true} />
       <TeamFormModal
         visible={isModalVisible}

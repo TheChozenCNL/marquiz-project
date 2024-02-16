@@ -1,6 +1,10 @@
+'use client'
+
 import React, { useState } from 'react'
 import { Modal, Form, Input, Button } from 'antd'
 import { ITeam } from '@/models/Team'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/modules/store/store'
 
 interface Props {
   visible: boolean
@@ -19,10 +23,14 @@ const TeamFormModal: React.FC<Props> = ({
   const [roundPoints, setRoundPoints] = useState<number[]>(
     new Array(roundNumber).fill(0)
   )
+  const teams = useSelector((state: RootState) => state.teams.teams)
 
+  console.log(teams)
   const onFinish = (values: any) => {
     const totalPoints = roundPoints.reduce((acc, val) => acc + val, 0)
+    form.setFieldsValue({ points: totalPoints })
     onCreate({
+      id: teams.length + 1,
       ...values,
       points: totalPoints,
       rounds: roundPoints.map((roundPoints, index) => ({
@@ -40,12 +48,31 @@ const TeamFormModal: React.FC<Props> = ({
     setRoundPoints(newRoundPoints)
   }
 
+  const fillRoundPointsForExistingTeam = (teamName: string) => {
+    const existingTeam = teams.find((team) => team.name === teamName)
+    if (existingTeam) {
+      const roundPoints = existingTeam.rounds.map((round) => round.roundPoints)
+      setRoundPoints(roundPoints)
+
+      roundFields.forEach((field, index) => {
+        const value = existingTeam.rounds[index]?.roundPoints || 0
+        form.setFieldsValue({ [field.name]: value })
+      })
+      return
+    }
+    roundFields.forEach((field, index) => {
+      const value = 0
+      form.setFieldsValue({ [field.name]: value })
+    })
+  }
   const roundFields = new Array(roundNumber).fill(null).map((_, index) => ({
     name: `rounds[${index}].roundPoints`,
     label: `Раунд ${index + 1}`,
-    rules: [{ required: true, message: 'Будь ласка, введіть бали за раунд' }],
     children: (
-      <Input onChange={(e) => onRoundPointsChange(e.target.value, index)} />
+      <Input
+        defaultValue={0}
+        onChange={(e) => onRoundPointsChange(e.target.value, index)}
+      />
     ),
   }))
 
@@ -71,15 +98,12 @@ const TeamFormModal: React.FC<Props> = ({
             { required: true, message: 'Будь ласка, введіть назву команди' },
           ]}
         >
-          <Input />
+          <Input
+            onChange={(e) => fillRoundPointsForExistingTeam(e.target.value)}
+          />
         </Form.Item>
         {roundFields.map((field) => (
-          <Form.Item
-            key={field.name}
-            name={field.name}
-            label={field.label}
-            rules={field.rules}
-          >
+          <Form.Item key={field.name} name={field.name} label={field.label}>
             {field.children}
           </Form.Item>
         ))}

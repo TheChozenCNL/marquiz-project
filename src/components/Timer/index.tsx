@@ -27,7 +27,6 @@ const CooldownTimer: React.FC<Props> = ({ minutes }) => {
       if (remainingTime > 0 && !isFinished) {
         dispatch(decrementRemainingTime())
         if (tickSound.current) {
-          console.log(tickSound)
           tickSound.current.play()
         }
       }

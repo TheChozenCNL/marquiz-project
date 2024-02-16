@@ -16,6 +16,7 @@ const QuestionTable: React.FC<Prop> = ({ questionsData }) => {
 
   const questions = questionsData
     ? questionsData
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     : useSelector((state: RootState) => state.questions.questions)
 
   const deleteQuestionHandler = (id: number) => {

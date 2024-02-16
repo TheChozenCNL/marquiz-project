@@ -5,6 +5,7 @@ import { addQuestion } from '@/modules/store/reducers/questionSlice'
 import { RootState } from '@/modules/store/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { ICategory } from '@/models/Category'
+import { IQuestion } from '@/models/Question'
 
 const { Text } = Typography
 
@@ -41,10 +42,16 @@ const AddQuestionSection = () => {
       return
     }
 
-    const newQuestion = {
+    const newQuestion: IQuestion = {
       id: questions.length + 1,
-      question: question,
-      answer: answer,
+      // implement to add imgQuestions
+      question: {
+        textQuestion: question,
+        imgQuestion: [],
+      },
+      answer: {
+        textAnswer: answer,
+      },
       category: selectedCategory,
     }
     dispatch(addQuestion(newQuestion))

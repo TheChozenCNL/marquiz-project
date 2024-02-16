@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation'
 import CategorySelect from '@/components/CategoryModal'
 import CategoryModal from '@/components/CategoryModal'
 import { IQuestion } from '@/models/Question'
+import ImageWithText from '../ImageWithText'
 
 const { Title } = Typography
 
@@ -103,9 +104,23 @@ const GameField: React.FC = () => {
         <div className={s.gameSection}>
           <Title level={1} className={s.text}>
             {isShowAnswer
-              ? questionsByCategory[currentRound - 1]?.answer
-              : questionsByCategory[currentRound - 1]?.question}
+              ? questionsByCategory[currentRound - 1]?.answer.textAnswer
+              : questionsByCategory[currentRound - 1]?.question.textQuestion}
           </Title>
+          <div className={s.imageContainer}>
+            {!isShowAnswer &&
+              questionsByCategory[currentRound - 1]?.question.imgQuestion?.map(
+                (img, index) => (
+                  <div className={s.image}>
+                    <ImageWithText
+                      src={img}
+                      text={`${index + 1}`}
+                      alt={`фото ${index}`}
+                    />
+                  </div>
+                )
+              )}
+          </div>
           {gameIsStarted && !isStopGame ? (
             <Button onClick={handleShowAnswer} className={s.btn}>
               Показати відповідь

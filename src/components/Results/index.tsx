@@ -22,6 +22,7 @@ function Results() {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [gameResult, setGameResult] = useState<undefined | ITeam>(undefined)
   const roundNumber = useSelector((state: RootState) => state.round.roundNumber)
+  const teams = useSelector((state: RootState) => state.teams.teams)
 
   if (gameData.gameIsStarted) {
     router.push('/')
@@ -36,6 +37,12 @@ function Results() {
   }
 
   const handleCreate = (values: ITeam) => {
+    if (teams.includes(values)) {
+      dispatch(updateTeam(values))
+      setGameResult(values)
+      setIsModalVisible(false)
+      return
+    }
     dispatch(addTeam(values))
     setGameResult(values)
     setIsModalVisible(false)
@@ -44,7 +51,9 @@ function Results() {
   return (
     <div className={s.container}>
       <div className={s.result}>
-        <Title level={2} className={s.text}>Результати гри</Title>
+        <Title level={2} className={s.text}>
+          Результати гри
+        </Title>
         <Button onClick={showModal}>Додати результат</Button>
       </div>
       <TeamsTable
@@ -52,7 +61,9 @@ function Results() {
         isResult
         setGameResult={setGameResult}
       />
-      <Title level={2} className={s.text}>Результати інших команд</Title>
+      <Title level={2} className={s.text}>
+        Результати інших команд
+      </Title>
       <TeamsTable setPagination={true} />
       <TeamFormModal
         visible={isModalVisible}

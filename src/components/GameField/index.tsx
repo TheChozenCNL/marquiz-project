@@ -111,7 +111,7 @@ const GameField: React.FC = () => {
             {!isShowAnswer &&
               questionsByCategory[currentRound - 1]?.question.imgQuestion?.map(
                 (img, index) => (
-                  <div className={s.image}>
+                  <div className={s.image} key={index}>
                     <ImageWithText
                       src={img}
                       text={`${index + 1}`}

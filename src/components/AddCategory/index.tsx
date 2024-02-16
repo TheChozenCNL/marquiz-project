@@ -13,7 +13,6 @@ const AddCategorySection = () => {
   const dispatch = useDispatch()
   const categories = useSelector((state: RootState) => state.categories?.categories ?? [])
   const categoriesLength = categories.length
-  const showAddButton = categoriesLength < 6
   const errorMessage = 'Мінімум 4 категорії потрібно'
 
   const handleAddCategory = () => {
@@ -27,7 +26,7 @@ const AddCategorySection = () => {
 
   return (
     <>
-      {showAddButton && <Button onClick={() => setModalVisible(true)}>Додати категорію</Button>}
+      <Button onClick={() => setModalVisible(true)}>Додати категорію</Button>
       <Modal
         title="Додати категорію"
         open={modalVisible}

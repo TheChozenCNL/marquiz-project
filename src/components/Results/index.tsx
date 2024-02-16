@@ -54,7 +54,10 @@ function Results() {
         <Title level={2} className={s.text}>
           Результати гри
         </Title>
-        <Button onClick={showModal}>Додати результат</Button>
+        <div>
+          <Button className={s.btn} onClick={showModal}>Додати результат</Button>
+          <Button onClick={() => router.push('/game')}>Грати</Button>
+        </div>
       </div>
       <TeamsTable
         teamData={gameResult}

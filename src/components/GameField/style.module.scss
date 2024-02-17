@@ -42,17 +42,11 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-
-    .imgContainer .image:nth-child(1):only-child {
-      max-width: none;
-      height: 100%;
-    }
   }
 
   .image {
     margin: 5px;
-    width: calc(25% - 10px); 
-    height: auto;
+    width: calc(100% / 4 - 10px);
   }
 
 }

@@ -1,9 +1,6 @@
 import React from 'react'
 import s from './style.module.scss'
 import AddQuestionSection from '../AddQuestion'
-import AddCategory from '@/components/AddCategory'
-import AddCategorySection from '@/components/AddCategory'
-
 
 const QuestionTableHeader = () => {
   return (
@@ -14,7 +11,6 @@ const QuestionTableHeader = () => {
         </div>
         <div>
           <AddQuestionSection />
-          <AddCategorySection />
         </div>
       </div>
     </>

@@ -19,6 +19,9 @@ export const categorySlice = createSlice({
       }
       state.categories.push(action.payload)
     },
+    addCategories: (state: CategoryState, action: PayloadAction<ICategory[]>) => {
+      state.categories = action.payload
+    },
     deleteCategory: (state: CategoryState, action: PayloadAction<number>) => {
       if (state.categories === undefined) {
         state.categories = []
@@ -31,7 +34,7 @@ export const categorySlice = createSlice({
   },
 })
 
-export const { addCategory, deleteCategory, resetCategoryState } =
+export const { addCategory, addCategories, deleteCategory, resetCategoryState } =
   categorySlice.actions
 
 export default categorySlice.reducer

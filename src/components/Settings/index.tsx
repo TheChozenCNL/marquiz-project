@@ -3,14 +3,16 @@
 import React from 'react'
 import { Card, Button, message } from 'antd'
 import { useDispatch } from 'react-redux'
-import { resetCategoryState } from '@/modules/store/reducers/categorySlice'
+import { addCategories, resetCategoryState } from '@/modules/store/reducers/categorySlice'
 import { resetGameState } from '@/modules/store/reducers/gameReducer'
-import { resetQuestionState } from '@/modules/store/reducers/questionSlice'
+import { addQuestions, resetQuestionState } from '@/modules/store/reducers/questionSlice'
 import { resetRoundState } from '@/modules/store/reducers/roundSlice'
 import { resetTeamState } from '@/modules/store/reducers/teamSlice'
 import s from './style.module.scss'
 import { useRouter } from 'next/navigation'
 import { RollbackOutlined } from '@ant-design/icons'
+import { IQuestion } from '@/models/Question'
+import { defaultCategories, defaultQuestions } from '@/utils/constants'
 
 const Settings: React.FC = () => {
   const dispatch = useDispatch()
@@ -40,6 +42,17 @@ const Settings: React.FC = () => {
     dispatch(resetRoundState())
     message.success('Успішно повернуто до початкових кількостей раундів')
   }
+
+  const handleAddQuestions = () => {
+    dispatch(addQuestions(defaultQuestions))
+    message.success('Успішно додано питання')
+  }
+
+  const handleAddCategories = () => {
+    dispatch(addCategories(defaultCategories))
+    message.success('Успішно додано категорії')
+  }
+
   return (
     <>
       <div className={s.pageContainer}>
@@ -72,6 +85,18 @@ const Settings: React.FC = () => {
             <div>Повернути до початкових даних гри</div>
             <Button type="primary" onClick={handleResetGame}>
               Повернути
+            </Button>
+          </div>
+          <div className={s.content}>
+            <div>Додати категорії</div>
+            <Button onClick={handleAddCategories}>
+              Додати
+            </Button>
+          </div>
+          <div className={s.content}>
+            <div>Додати питання</div>
+            <Button onClick={handleAddQuestions}>
+              Додати
             </Button>
           </div>
           <Button

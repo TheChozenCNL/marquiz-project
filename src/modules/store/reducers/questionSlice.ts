@@ -16,6 +16,9 @@ export const questionSlice = createSlice({
     addQuestion: (state: QuestionState, action: PayloadAction<IQuestion>) => {
       state.questions.push(action.payload)
     },
+    addQuestions: (state: QuestionState, action: PayloadAction<IQuestion[]>) => {
+      state.questions = action.payload
+    },
     updateQuestion: (
       state: QuestionState,
       action: PayloadAction<IQuestion>
@@ -35,6 +38,7 @@ export const questionSlice = createSlice({
 
 export const {
   addQuestion,
+  addQuestions,
   updateQuestion,
   deleteQuestion,
   resetQuestionState,

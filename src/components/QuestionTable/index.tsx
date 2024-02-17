@@ -3,7 +3,7 @@ import { Button, Table } from 'antd'
 import { IQuestion } from '@/models/Question'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/modules/store/store'
-import { deleteQuestion } from '@/modules/store/reducers/questionSlice'
+import { addQuestion, deleteQuestion } from '@/modules/store/reducers/questionSlice'
 
 interface Prop {
   questionsData?: IQuestion[]
@@ -16,7 +16,6 @@ const QuestionTable: React.FC<Prop> = ({ questionsData }) => {
 
   const questions = questionsData
     ? questionsData
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     : useSelector((state: RootState) => state.questions.questions)
 
   const deleteQuestionHandler = (id: number) => {
@@ -28,22 +27,25 @@ const QuestionTable: React.FC<Prop> = ({ questionsData }) => {
       title: '№',
       dataIndex: 'id',
       key: 'id',
-    },
-    {
-      title: 'Питання',
-      dataIndex: 'question',
-      key: 'question',
-    },
-    {
-      title: 'Відповідь',
-      dataIndex: 'answer',
-      key: 'answer',
+
     },
     {
       title: 'Категорія',
       dataIndex: 'category',
       key: 'category',
       render: (category: any) => category?.name,
+    },
+    {
+      title: 'Питання',
+      dataIndex: 'question',
+      key: 'question',
+      render: (question: any) => question?.textQuestion
+    },
+    {
+      title: 'Відповідь',
+      dataIndex: 'answer',
+      key: 'answer',
+      render: (answer: any) => answer?.textAnswer
     },
     {
       title: 'Дії',

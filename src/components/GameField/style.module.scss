@@ -43,10 +43,27 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-
+  
   .image {
     margin: 5px;
     width: calc(100% / 4 - 10px);
   }
-
+  
+  .image:first-child:last-child {
+    width: calc(100% - 10px);
+  }
+  
+  .image:first-child:nth-last-child(2),
+  .image:first-child:nth-last-child(2) ~ .image {
+    width: calc(50% - 10px);
+  }
+  
+  .image:first-child:nth-last-child(3),
+  .image:first-child:nth-last-child(3) ~ .image {
+    width: calc(33.33% - 10px);
+  }
+  
+  .image {
+    width: calc(25% - 10px); /* Ширина 25% */
+  }
 }

@@ -29,10 +29,15 @@ export const questionSlice = createSlice({
         (question) => question.id !== action.payload
       )
     },
+    resetQuestionState: () => initialState,
   },
 })
 
-export const { addQuestion, updateQuestion, deleteQuestion } =
-  questionSlice.actions
+export const {
+  addQuestion,
+  updateQuestion,
+  deleteQuestion,
+  resetQuestionState,
+} = questionSlice.actions
 
 export default questionSlice.reducer

@@ -51,9 +51,11 @@ export const gameSlice = createSlice({
     setQuestions: (state: GameState, action: PayloadAction<IQuestion[]>) => {
       state.questions = action.payload
     },
+    resetGameState: () => initialState,
   },
 })
 
-export const { startGame, showAnswer, nextRound, endGame } = gameSlice.actions
+export const { startGame, showAnswer, nextRound, endGame, resetGameState } =
+  gameSlice.actions
 
 export default gameSlice.reducer

@@ -1,0 +1,20 @@
+.pageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.pageCard {
+  width: 500px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.btn {
+  width: 100%;
+}

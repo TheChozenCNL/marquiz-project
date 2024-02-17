@@ -24,9 +24,11 @@ export const teamSlice = createSlice({
     deleteTeam: (state: TeamState, action: PayloadAction<number>) => {
       state.teams = state.teams.filter((team) => team.id !== action.payload)
     },
+    resetTeamState: () => initialState,
   },
 })
 
-export const { addTeam, updateTeam, deleteTeam } = teamSlice.actions
+export const { addTeam, updateTeam, deleteTeam, resetTeamState } =
+  teamSlice.actions
 
 export default teamSlice.reducer

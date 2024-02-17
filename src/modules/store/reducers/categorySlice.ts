@@ -1,12 +1,13 @@
 import { ICategory } from '@/models/Category'
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import { defaultCategories } from '@/utils/constants'
 
 export interface CategoryState {
   categories?: ICategory[]
 }
 
 const initialState: CategoryState = {
-  categories: [],
+  categories: defaultCategories,
 }
 
 export const categorySlice = createSlice({
@@ -19,7 +20,10 @@ export const categorySlice = createSlice({
       }
       state.categories.push(action.payload)
     },
-    addCategories: (state: CategoryState, action: PayloadAction<ICategory[]>) => {
+    addCategories: (
+      state: CategoryState,
+      action: PayloadAction<ICategory[]>
+    ) => {
       state.categories = action.payload
     },
     deleteCategory: (state: CategoryState, action: PayloadAction<number>) => {
@@ -34,7 +38,11 @@ export const categorySlice = createSlice({
   },
 })
 
-export const { addCategory, addCategories, deleteCategory, resetCategoryState } =
-  categorySlice.actions
+export const {
+  addCategory,
+  addCategories,
+  deleteCategory,
+  resetCategoryState,
+} = categorySlice.actions
 
 export default categorySlice.reducer

@@ -1,12 +1,13 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { IQuestion } from '@/models/Question'
+import { defaultQuestions } from '@/utils/constants'
 
 interface QuestionState {
   questions: IQuestion[]
 }
 
 const initialState: QuestionState = {
-  questions: [],
+  questions: defaultQuestions,
 }
 
 export const questionSlice = createSlice({

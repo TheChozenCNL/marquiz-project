@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Card, Button, message } from 'antd'
+import { Card, Button, message, Radio } from 'antd'
 import { useDispatch } from 'react-redux'
 import { addCategories, resetCategoryState } from '@/modules/store/reducers/categorySlice'
 import { resetGameState } from '@/modules/store/reducers/gameReducer'
@@ -57,10 +57,15 @@ const Settings: React.FC = () => {
     <>
       <div className={s.pageContainer}>
         <Card className={s.pageCard} title={'Налаштування'}>
-          <div className={s.content}>
-            <div>Повернути до початкових категорій</div>
-            <Button type="primary" onClick={handleResetCategory}>
-              Повернути
+          <div style={{textAlign: 'center', marginBottom: '20px'}}>
+            <Button type="primary" href="/categories">
+              Категорії
+            </Button>
+            <Button type="primary" href="/questions">
+              Питання
+            </Button>
+            <Button type="primary" href="/results">
+              Результати
             </Button>
           </div>
           <div className={s.content}>

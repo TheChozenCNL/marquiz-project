@@ -7,7 +7,7 @@ interface QuestionState {
 }
 
 const initialState: QuestionState = {
-  questions: defaultQuestions,
+  questions: [],
 }
 
 export const questionSlice = createSlice({

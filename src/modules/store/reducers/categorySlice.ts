@@ -7,7 +7,7 @@ export interface CategoryState {
 }
 
 const initialState: CategoryState = {
-  categories: defaultCategories,
+  categories: [],
 }
 
 export const categorySlice = createSlice({
